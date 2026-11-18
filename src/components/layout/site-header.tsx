@@ -15,6 +15,18 @@ export interface MenuLink {
   href: string;
 }
 
+const drawerToolLabels: Record<string, string> = {
+  "/tools": "学习仪表盘",
+  "/tools/study-tracker": "学习记录器",
+  "/tools/spaced-repetition": "间隔重复",
+  "/tools/active-recall": "主动回忆",
+  "/tools/reading-tracker": "阅读记录",
+  "/tools/learning-goals": "目标规划",
+  "/tools/knowledge-cards": "知识卡片",
+  "/tools/focus-timer": "专注计时",
+  "/tools/weekly-review": "每周复盘",
+};
+
 interface SiteHeaderProps {
   items: SearchItem[];
   menuLinks: Record<string, MenuLink[]>;
@@ -36,6 +48,7 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
   });
 
   return (
+    <>
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between gap-4">
         <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Learning Lab 首页">
@@ -44,7 +57,7 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
           </span>
           <span className="flex flex-col leading-none">
             <span className="font-serif text-[17px] font-semibold tracking-tight">{siteConfig.name}</span>
-            <span className="mt-0.5 text-[9px] uppercase tracking-[0.22em] text-muted-foreground">
+            <span className="mt-0.5 hidden text-[9px] uppercase tracking-[0.22em] text-muted-foreground sm:block">
               {siteConfig.tagline}
             </span>
           </span>
@@ -54,11 +67,11 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
           <Link
             href="/"
             className={cn(
-              "rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors hover:text-primary",
+              "whitespace-nowrap rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors hover:text-primary",
               pathname === "/" ? "text-primary" : "text-foreground/80",
             )}
           >
-            Home
+            {mainNav[0].label}
           </Link>
           {navWithMenus.map((item) => {
             const hrefKey = item.href.slice(1);
@@ -73,7 +86,7 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
                 <Link
                   href={item.href}
                   className={cn(
-                    "inline-flex items-center gap-1 rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors hover:text-primary",
+                    "inline-flex items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors hover:text-primary",
                     active ? "text-primary" : "text-foreground/80",
                   )}
                 >
@@ -110,7 +123,7 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
           })}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-1">
+        <div className="ml-auto flex shrink-0 items-center gap-1">
           <SearchDialog items={items} />
           <ThemeToggle />
           <Link
@@ -122,16 +135,17 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
           </Link>
           <button
             onClick={() => setDrawer(true)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-surface hover:text-foreground focus-ring xl:hidden"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-surface hover:text-foreground focus-ring xl:hidden"
             aria-label="打开导航菜单"
           >
             <Menu className="h-5 w-5" />
           </button>
         </div>
       </div>
+    </header>
 
-      {drawer && (
-        <div className="fixed inset-0 z-50 xl:hidden">
+    {drawer && (
+      <div className="fixed inset-0 z-50 xl:hidden">
           <div className="absolute inset-0 bg-foreground/30 backdrop-blur-sm" onClick={() => setDrawer(false)} />
           <div className="absolute right-0 top-0 h-full w-[min(360px,88vw)] overflow-y-auto border-l border-border bg-card p-6 shadow-lift">
             <div className="mb-8 flex items-center justify-between">
@@ -141,7 +155,7 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
               </button>
             </div>
             <Link href="/" className="mb-2 block rounded-md px-3 py-2 font-medium hover:bg-surface">
-              Home
+              {mainNav[0].label}
             </Link>
             <p className="section-label mb-2 mt-6">知识分类</p>
             <div className="space-y-0.5">
@@ -161,17 +175,17 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
             </div>
             <p className="section-label mb-2 mt-6">更多</p>
             <div className="space-y-0.5">
-              <Link href="/books" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">Books · 书籍</Link>
-              <Link href="/resources" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">Resources · 资源</Link>
-              <Link href="/learning-paths" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">Learning Paths · 学习路径</Link>
-              <Link href="/search" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">Search · 搜索</Link>
+              <Link href="/books" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">精选书籍</Link>
+              <Link href="/resources" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">专业资源</Link>
+              <Link href="/learning-paths" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">学习路径</Link>
+              <Link href="/search" className="block rounded-md px-3 py-2 text-sm hover:bg-surface">全站搜索</Link>
             </div>
             <p className="section-label mb-2 mt-6">学习工具</p>
             <div className="space-y-0.5">
               {toolsList.map((t) => (
                 <Link key={t.href} href={t.href} className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-surface">
                   <Library className="h-3.5 w-3.5 text-primary" />
-                  {t.label}
+                  {drawerToolLabels[t.href] ?? t.label}
                 </Link>
               ))}
             </div>
@@ -185,6 +199,6 @@ export function SiteHeader({ items, menuLinks }: SiteHeaderProps) {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }

@@ -100,15 +100,15 @@ export const categoryMap = Object.fromEntries(categories.map((c) => [c.slug, c])
 >;
 
 export const mainNav: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Learning Science", href: "/learning-science", description: "理解学习的科学基础" },
-  { label: "Memory", href: "/memory", description: "记忆的形成、巩固与提取" },
-  { label: "Learning Methods", href: "/learning-methods", description: "有证据支持的学习方法" },
-  { label: "Reading", href: "/reading", description: "有效阅读与理解" },
-  { label: "Thinking", href: "/thinking", description: "推理、偏差与决策" },
-  { label: "Knowledge Management", href: "/knowledge-management", description: "构建个人知识体系" },
-  { label: "Resources", href: "/resources", description: "全球专业资源导航" },
-  { label: "Tools", href: "/tools", description: "可操作的个人学习工具" },
+  { label: "首页", href: "/" },
+  { label: "学习科学", href: "/learning-science", description: "理解学习的科学基础" },
+  { label: "记忆科学", href: "/memory", description: "记忆的形成、巩固与提取" },
+  { label: "学习方法", href: "/learning-methods", description: "有证据支持的学习方法" },
+  { label: "阅读理解", href: "/reading", description: "有效阅读与理解" },
+  { label: "思维推理", href: "/thinking", description: "推理、偏差与决策" },
+  { label: "知识管理", href: "/knowledge-management", description: "构建个人知识体系" },
+  { label: "资源导航", href: "/resources", description: "全球专业资源导航" },
+  { label: "学习工具", href: "/tools", description: "可操作的个人学习工具" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
